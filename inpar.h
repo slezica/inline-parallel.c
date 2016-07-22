@@ -34,13 +34,15 @@
  * 
  */
  
-#define thread ({ /*
+#define thread pthread_t _current_background_thread_ = do { /*
 */  pthread_t _inpar_thread_temp; /*
 */  auto void* _inpar_thread_func(void* nothing); /*
 
 */  pthread_create(&_inpar_thread_temp, NULL, &_inpar_thread_func, NULL);/*
 */  void* _inpar_thread_func(void* nothing)
 
-#define endthread _inpar_thread_temp; })
+#define endthread } while (0)
+
+#define wait_for_completion pthread_join(_current_background_thread_)
 
 #endif
